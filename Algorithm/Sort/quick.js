@@ -1,19 +1,18 @@
 function quickSort(array) {
-    if (array.length == 1) {
+    if (array.length <= 1) {
         return array;
     }
     let pivot = array[0]; //can be any element
     let leftArray = [];
     let rightArray = [];
-    for (i = 0; i < array.length; i++) {
+    for (i = 1; i < array.length; i++) {
         if (array[i] < pivot) {
             leftArray.push(array[i]);
-        }
-        if (array[i] > pivot) {
+        } else {
             rightArray.push(array[i]);
         }
     }
-    return [quickSort(leftArray), pivot, quickSort(rightArray)];
+    return [...quickSort(leftArray), pivot, ...quickSort(rightArray)];
 }
 
 console.log(quickSort([8, 20, -6, -2, 4]));
