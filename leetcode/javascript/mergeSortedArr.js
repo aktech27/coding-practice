@@ -15,7 +15,7 @@ The final sorted array should not be returned by the function, but instead be st
  * @param {number} n
  * @return {void} Do not return anything, modify nums1 in-place instead.
  */
-var merge = function (nums1, m, nums2, n) {
+var mergeBrute = function (nums1, m, nums2, n) {
   for (let i = 0; i < nums2.length; i++) {
     nums1[m + i] = nums2[i];
   }
@@ -33,6 +33,33 @@ var merge = function (nums1, m, nums2, n) {
   console.log(nums1);
 };
 
-// merge([1, 2, 3, 0, 0, 0], 3, [2, 5, 6], 3);
-// merge([4, 0, 0, 0, 0, 0], 1, [1, 2, 3, 5, 6], 5);
+// Optimal Solution using two pointers:
+var merge = function (nums1, m, nums2, n) {
+  let i = m + n - 1;
+  let ptr1 = m - 1;
+  let ptr2 = n - 1;
+
+  while (ptr1 >= 0 && ptr2 >= 0) {
+    if (nums1[ptr1] > nums2[ptr2]) {
+      nums1[i] = nums1[ptr1];
+      ptr1--;
+      i--;
+    } else {
+      nums1[i] = nums2[ptr2];
+      ptr2--;
+      i--;
+    }
+  }
+
+  while (ptr2 >= 0) {
+    nums1[i] = nums2[ptr2];
+    ptr2--;
+    i--;
+  }
+};
+
+merge([1, 2, 3, 0, 0, 0], 3, [2, 5, 6], 3);
+merge([4, 0, 0, 0, 0, 0], 1, [1, 2, 3, 5, 6], 5);
 merge([1, 2, 4, 5, 6, 0], 5, [3], 1);
+merge([1, 2, 3, 0, 0, 0], 3, [4, 5, 6], 3);
+merge([4, 5, 6, 0, 0, 0], 3, [1, 2, 3], 3);
