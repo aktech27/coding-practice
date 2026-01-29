@@ -10,7 +10,7 @@ A subarray is a contiguous part of an array.
  * @param {number} k
  * @return {number}
  */
-var subarraysDivByK = function (nums, k) {
+var subarraysDivByKBrute = function (nums, k) {
   let count = 0;
   const hashMap = {
     '0': 1
@@ -29,6 +29,31 @@ var subarraysDivByK = function (nums, k) {
     } else {
       hashMap[mod] = 1;
     }
+  }
+  return count;
+};
+
+// Optimal with constant space:
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
+var subarraysDivByK = function (nums, k) {
+  let count = 0;
+  for (let i = 1; i < nums.length; i++) {
+    nums[i] += nums[i - 1];
+  }
+  const map = new Map();
+  for (let n of nums) {
+    let mod = n % k;
+    if (n % k == 0) {
+      count++;
+    }
+    if (map.has(mod)) {
+      count += map.get(mod);
+    }
+    map.set(mod, (map.get(mod) ?? 0) + 1);
   }
   return count;
 };
